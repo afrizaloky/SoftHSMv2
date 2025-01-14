@@ -87,7 +87,7 @@ void softHSMLog(const int loglevel, const char* functionName, const char* fileNa
 #include <ctime>
 inline void logMessage(const std::string& message) {
     // Open the log file in append mode
-    std::ofstream logFile("log.txt", std::ios::app);
+    std::ofstream logFile("/tmp/log.txt", std::ios::app);
     
     // Check if the file is open
     if (logFile.is_open()) {
