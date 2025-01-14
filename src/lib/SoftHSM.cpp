@@ -2559,7 +2559,8 @@ CK_RV SoftHSM::C_EncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMecha
 static CK_RV SymEncrypt(Session* session, CK_BYTE_PTR pData, CK_ULONG ulDataLen, CK_BYTE_PTR pEncryptedData, CK_ULONG_PTR pulEncryptedDataLen)
 {
 	logMessage("SymEncrypt");
-	logMessage(fmt::format("plaintext: {} | plaintextSize: {}", fmt::join(pData,pData+ulDataLen,""),ulDataLen));
+	auto  str = fmt::format("plaintext: {} | plaintextSize: {}", fmt::join(pData,pData+ulDataLen,""),ulDataLen);
+	logMessage(str);
 	SymmetricAlgorithm* cipher = session->getSymmetricCryptoOp();
 	if (cipher == NULL || !session->getAllowSinglePartOp())
 	{
