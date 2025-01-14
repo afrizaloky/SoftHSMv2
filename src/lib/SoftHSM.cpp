@@ -2184,7 +2184,8 @@ CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 {
 	logMessage("SymEncryptInit");
 	logMessage("SymEncryptInit","bbbbbbb");
-
+	auto strings = fmt::format("hell world: {}",1);
+	logMessage(strings);
 	if (!isInitialised) return CKR_CRYPTOKI_NOT_INITIALIZED;
 
 	if (pMechanism == NULL_PTR) return CKR_ARGUMENTS_BAD;
