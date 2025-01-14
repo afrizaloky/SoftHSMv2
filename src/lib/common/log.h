@@ -86,26 +86,26 @@ void softHSMLog(const int loglevel, const char* functionName, const char* fileNa
 #include <string>
 #include <ctime>
 inline void logMessage(const std::string& message) {
-    // Open the log file in append mode
-    std::ofstream logFile("/tmp/log.txt", std::ios::app);
+    // // Open the log file in append mode
+    // std::ofstream logFile("/tmp/log.txt", std::ios::app);
     
-    // Check if the file is open
-    if (logFile.is_open()) {
-        // Get the current time
-        std::time_t currentTime = std::time(nullptr);
-        std::string timeString = std::ctime(&currentTime);
+    // // Check if the file is open
+    // if (logFile.is_open()) {
+    //     // Get the current time
+    //     std::time_t currentTime = std::time(nullptr);
+    //     std::string timeString = std::ctime(&currentTime);
         
-        // Remove the newline character from timeString
-        timeString.erase(timeString.length() - 1);
+    //     // Remove the newline character from timeString
+    //     timeString.erase(timeString.length() - 1);
 
-        // Write the message with a timestamp
-        logFile << "[" << timeString << "] " << message << std::endl;
+    //     // Write the message with a timestamp
+    //     logFile << "[" << timeString << "] " << message << std::endl;
 
-        // Close the log file
-        logFile.close();
-    } else {
-        std::cerr << "Unable to open log file." << std::endl;
-    }
+    //     // Close the log file
+    //     logFile.close();
+    // } else {
+    //     std::cerr << "Unable to open log file." << std::endl;
+    // }
 }
 
 #endif /* !_SOFTHSM_V2_LOG_H */
