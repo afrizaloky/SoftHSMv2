@@ -90,6 +90,7 @@ void softHSMLog(const int loglevel, const char* functionName, const char* fileNa
 #define FMT_HEADER_ONLY
 #include "fmt/core.h"
 #include "fmt/format.h"
+#include "fmt/ranges.h"
 
 
 

@@ -2184,8 +2184,6 @@ CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 {
 	logMessage("SymEncryptInit");
 	logMessage("SymEncryptInit","bbbbbbb");
-	auto strings = fmt::format("hell world: {}",1);
-	logMessage(strings);
 	if (!isInitialised) return CKR_CRYPTOKI_NOT_INITIALIZED;
 
 	if (pMechanism == NULL_PTR) return CKR_ARGUMENTS_BAD;
@@ -2238,7 +2236,7 @@ CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 	size_t counterBits = 0;
 	ByteString aad;
 	size_t tagBytes = 0;
-	// logMessage(fmt::format("mechanism: {}\n", pMechanism->mechanism));
+	logMessage(fmt::format("mechanism: {}\n", pMechanism->mechanism));
 	switch(pMechanism->mechanism) {
 #ifndef WITH_FIPS
 		case CKM_DES_ECB:
@@ -2561,6 +2559,7 @@ CK_RV SoftHSM::C_EncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMecha
 static CK_RV SymEncrypt(Session* session, CK_BYTE_PTR pData, CK_ULONG ulDataLen, CK_BYTE_PTR pEncryptedData, CK_ULONG_PTR pulEncryptedDataLen)
 {
 	logMessage("SymEncrypt");
+	logMessage(fmt::format("plaintext: {} | plaintextSize: {}", fmt::join(pData,pData+ulDataLen,""),ulDataLen));
 	SymmetricAlgorithm* cipher = session->getSymmetricCryptoOp();
 	if (cipher == NULL || !session->getAllowSinglePartOp())
 	{
