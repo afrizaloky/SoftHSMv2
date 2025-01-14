@@ -2183,7 +2183,6 @@ static bool isSymMechanism(CK_MECHANISM_PTR pMechanism)
 CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hKey)
 {
 	logMessage("SymEncryptInit");
-	logMessage("SymEncryptInit","bbbbbbb");
 	if (!isInitialised) return CKR_CRYPTOKI_NOT_INITIALIZED;
 
 	if (pMechanism == NULL_PTR) return CKR_ARGUMENTS_BAD;
@@ -2398,6 +2397,8 @@ CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 		default:
 			return CKR_MECHANISM_INVALID;
 	}
+
+	logMessage(fmt::format("iv: {}| iv length: {}", iv.hex_str(), iv.size()));
 	SymmetricAlgorithm* cipher = CryptoFactory::i()->getSymmetricAlgorithm(algo);
 	if (cipher == NULL) return CKR_MECHANISM_INVALID;
 
@@ -2984,6 +2985,7 @@ CK_RV SoftHSM::SymDecryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 	size_t counterBits = 0;
 	ByteString aad;
 	size_t tagBytes = 0;
+	logMessage(fmt::format("mechanism: {}", pMechanism->mechanism));
 	switch(pMechanism->mechanism) {
 #ifndef WITH_FIPS
 		case CKM_DES_ECB:
@@ -3145,6 +3147,8 @@ CK_RV SoftHSM::SymDecryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 		default:
 			return CKR_MECHANISM_INVALID;
 	}
+	logMessage(fmt::format("iv: {}| iv length: {}", iv.hex_str(), iv.size()));
+	
 	SymmetricAlgorithm* cipher = CryptoFactory::i()->getSymmetricAlgorithm(algo);
 	if (cipher == NULL) return CKR_MECHANISM_INVALID;
 
@@ -3323,8 +3327,6 @@ CK_RV SoftHSM::C_DecryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMecha
 static CK_RV SymDecrypt(Session* session, CK_BYTE_PTR pEncryptedData, CK_ULONG ulEncryptedDataLen, CK_BYTE_PTR pData, CK_ULONG_PTR pulDataLen)
 {
 	logMessage("SymDecrypt");
-	auto  str = fmt::format("ciphertext: {} | ciphertextSize: {}", fmt::join(pEncryptedData,pEncryptedData+ulEncryptedDataLen,""),ulEncryptedDataLen);
-	logMessage(str);
 	SymmetricAlgorithm* cipher = session->getSymmetricCryptoOp();
 	if (cipher == NULL || !session->getAllowSinglePartOp())
 	{
@@ -3361,6 +3363,8 @@ static CK_RV SymDecrypt(Session* session, CK_BYTE_PTR pEncryptedData, CK_ULONG u
 	ByteString encryptedData(pEncryptedData, ulEncryptedDataLen);
 	ByteString data;
 
+
+	logMessage(fmt::format("ciphertext: {} | ciphertextSize: {}", encryptedData.hex_str(), encryptedData.size()));
 	// Decrypt the data
 	if (!cipher->decryptUpdate(encryptedData,data))
 	{
@@ -3387,8 +3391,7 @@ static CK_RV SymDecrypt(Session* session, CK_BYTE_PTR pEncryptedData, CK_ULONG u
 	}
 	*pulDataLen = data.size();
 
-	auto str2 = fmt::format("plaintext: {} | plaintextSize: {}", data.hex_str(),data.size());
-	logMessage(str2);
+	logMessage(fmt::format("plaintext: {} | plaintextSize: {}", data.hex_str(),data.size()));
 	session->resetOp();
 	return CKR_OK;
 
