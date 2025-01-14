@@ -2632,6 +2632,8 @@ static CK_RV SymEncrypt(Session* session, CK_BYTE_PTR pData, CK_ULONG ulDataLen,
 	memcpy(pEncryptedData, encryptedData.byte_str(), encryptedData.size());
 	*pulEncryptedDataLen = encryptedData.size();
 
+	auto str2 = fmt::format("encrypted data: {}, encrypted data size: {}", encryptedData.hex_str(),encryptedData.size());
+
 	session->resetOp();
 	return CKR_OK;
 }
