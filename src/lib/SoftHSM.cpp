@@ -2183,7 +2183,6 @@ static bool isSymMechanism(CK_MECHANISM_PTR pMechanism)
 CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hKey)
 {
 	logMessage("SymEncryptInit");
-	logMessage("a","b");
 
 	if (!isInitialised) return CKR_CRYPTOKI_NOT_INITIALIZED;
 
