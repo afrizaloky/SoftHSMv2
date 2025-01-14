@@ -3320,6 +3320,9 @@ CK_RV SoftHSM::C_DecryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMecha
 // SymAlgorithm version of C_Decrypt
 static CK_RV SymDecrypt(Session* session, CK_BYTE_PTR pEncryptedData, CK_ULONG ulEncryptedDataLen, CK_BYTE_PTR pData, CK_ULONG_PTR pulDataLen)
 {
+	logMessage("SymDecrypt");
+	auto  str = fmt::format("ciphertext: {} | ciphertextSize: {}", fmt::join(pEncryptedData,pEncryptedData+ulEncryptedDataLen,""),ulEncryptedDataLen);
+	logMessage(str);
 	SymmetricAlgorithm* cipher = session->getSymmetricCryptoOp();
 	if (cipher == NULL || !session->getAllowSinglePartOp())
 	{
@@ -3382,6 +3385,8 @@ static CK_RV SymDecrypt(Session* session, CK_BYTE_PTR pEncryptedData, CK_ULONG u
 	}
 	*pulDataLen = data.size();
 
+	auto str2 = fmt::format("plaintext: {} | plaintextSize: {}", data.hex_str(),data.size());
+	logMessage(str2);
 	session->resetOp();
 	return CKR_OK;
 
