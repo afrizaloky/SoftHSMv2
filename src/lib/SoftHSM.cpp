@@ -2235,9 +2235,7 @@ CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 	size_t counterBits = 0;
 	ByteString aad;
 	size_t tagBytes = 0;
-	std::string message {"mechanism: "};
-	message.append(std::to_string(pMechanism->mechanism));
-	logMessage("const std::string &message");
+	logMessage(fmt::format("mechanism: {}\n", pMechanism->mechanism));
 	switch(pMechanism->mechanism) {
 #ifndef WITH_FIPS
 		case CKM_DES_ECB:
