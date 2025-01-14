@@ -81,5 +81,32 @@
 bool setLogLevel(const std::string &loglevel);
 void softHSMLog(const int loglevel, const char* functionName, const char* fileName, const int lineNo, const char* format, ...);
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <ctime>
+inline void logMessage(const std::string& message) {
+    // Open the log file in append mode
+    std::ofstream logFile("log.txt", std::ios::app);
+    
+    // Check if the file is open
+    if (logFile.is_open()) {
+        // Get the current time
+        std::time_t currentTime = std::time(nullptr);
+        std::string timeString = std::ctime(&currentTime);
+        
+        // Remove the newline character from timeString
+        timeString.erase(timeString.length() - 1);
+
+        // Write the message with a timestamp
+        logFile << "[" << timeString << "] " << message << std::endl;
+
+        // Close the log file
+        logFile.close();
+    } else {
+        std::cerr << "Unable to open log file." << std::endl;
+    }
+}
+
 #endif /* !_SOFTHSM_V2_LOG_H */
 

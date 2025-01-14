@@ -2507,10 +2507,17 @@ CK_RV SoftHSM::AsymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMec
 // Initialise encryption using the specified object and mechanism
 CK_RV SoftHSM::C_EncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hKey)
 {
+	logMessage("C_EncryptInit");
 	if (isSymMechanism(pMechanism))
-		return SymEncryptInit(hSession, pMechanism, hKey);
+		{
+			logMessage("SymEncryptInit");
+			return SymEncryptInit(hSession, pMechanism, hKey);
+		}
 	else
-		return AsymEncryptInit(hSession, pMechanism, hKey);
+		{
+			logMessage("AsymEncryptInit");
+			return AsymEncryptInit(hSession, pMechanism, hKey);
+		}
 }
 
 // SymAlgorithm version of C_Encrypt

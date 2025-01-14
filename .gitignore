@@ -1,3 +1,4 @@
+.cache
 # Automake, autoconf, libtool
 Makefile
 Makefile.in
