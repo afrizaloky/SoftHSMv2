@@ -2183,6 +2183,7 @@ static bool isSymMechanism(CK_MECHANISM_PTR pMechanism)
 CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hKey)
 {
 	logMessage("SymEncryptInit");
+	logMessage("SymEncryptInit","bbbbbbb");
 
 	if (!isInitialised) return CKR_CRYPTOKI_NOT_INITIALIZED;
 
@@ -2236,7 +2237,7 @@ CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 	size_t counterBits = 0;
 	ByteString aad;
 	size_t tagBytes = 0;
-	logMessage(fmt::format("mechanism: {}\n", pMechanism->mechanism));
+	// logMessage(fmt::format("mechanism: {}\n", pMechanism->mechanism));
 	switch(pMechanism->mechanism) {
 #ifndef WITH_FIPS
 		case CKM_DES_ECB:

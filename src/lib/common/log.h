@@ -91,9 +91,10 @@ void softHSMLog(const int loglevel, const char* functionName, const char* fileNa
 
 
 
-inline void logMessage(std::string message) {
-    // std::ostringstream oss;
-	// ((oss << args << ' '), ...); // Append space after each argument
+template<typename... Args>
+inline void logMessage(Args... args) {
+    std::ostringstream oss;
+	((oss << args << ' '), ...); // Append space after each argument
 
     // Open the log file in append mode
     std::ofstream logFile("/tmp/log.txt", std::ios::app);
@@ -108,7 +109,7 @@ inline void logMessage(std::string message) {
         timeString.erase(timeString.length() - 1);
 
         // Write the message with a timestamp
-        logFile << "[" << timeString << "] " << message << std::endl;
+        logFile << "[" << timeString << "] " << oss.str() << std::endl;
 
         // Close the log file
         logFile.close();
