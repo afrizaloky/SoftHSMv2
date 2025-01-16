@@ -530,6 +530,7 @@ bool BotanSymmetricAlgorithm::decryptUpdate(const ByteString& encryptedData, Byt
 
 bool BotanSymmetricAlgorithm::decryptFinal(ByteString& data)
 {
+	logMessage("BotanSymmetricAlgorithm::decryptFinal");
 	SymMode::Type mode = currentCipherMode;
 	ByteString aeadBuffer = currentAEADBuffer;
 

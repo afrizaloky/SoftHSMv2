@@ -115,6 +115,7 @@ std::auto_ptr<SoftHSM> SoftHSM::instance(NULL);
 
 static CK_RV newP11Object(CK_OBJECT_CLASS objClass, CK_KEY_TYPE keyType, CK_CERTIFICATE_TYPE certType, P11Object **p11object)
 {
+	logMessage(fmt::format("objClass: {} | keyType: {} | certType: {}", objClass, keyType, certType));
 	switch(objClass) {
 		case CKO_DATA:
 			*p11object = new P11DataObj();

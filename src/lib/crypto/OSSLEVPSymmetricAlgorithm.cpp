@@ -458,6 +458,8 @@ bool OSSLEVPSymmetricAlgorithm::decryptUpdate(const ByteString& encryptedData, B
 
 bool OSSLEVPSymmetricAlgorithm::decryptFinal(ByteString& data)
 {
+	logMessage("OSSLEVPSymmetricAlgorithm::decryptFinal");
+
 	SymMode::Type mode = currentCipherMode;
 	size_t tagBytes = currentTagBytes;
 	ByteString aeadBuffer = currentAEADBuffer;
