@@ -2725,12 +2725,12 @@ CK_RV SoftHSM::C_Encrypt(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pData, CK_ULONG
 		auto ret =  SymEncrypt(session, pData, ulDataLen,
 				  pEncryptedData, pulEncryptedDataLen);
 
-		if(pEncryptedData != NULL and pulEncryptedDataLen != NULL) {
-			ByteString data(pData, ulDataLen);
-			ByteString encryptedData(pEncryptedData, *pulEncryptedDataLen);
+		// if(pEncryptedData != NULL and pulEncryptedDataLen != NULL) {
+		// 	ByteString data(pData, ulDataLen);
+		// 	ByteString encryptedData(pEncryptedData, *pulEncryptedDataLen);
 			
-			logMessage(fmt::format("pData: {} | ulDataLen: {} | pEncryptedData: {} | pulEncryptedDataLen: {}"), data.hex_str(), data.size(), encryptedData.hex_str(), encryptedData.size());
-		}
+		// 	logMessage(fmt::format("pData: {} | ulDataLen: {} | pEncryptedData: {} | pulEncryptedDataLen: {}"), data.hex_str(), data.size(), encryptedData.hex_str(), encryptedData.size());
+		// }
 		return ret;
 	}
 	else
