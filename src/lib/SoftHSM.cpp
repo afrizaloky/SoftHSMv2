@@ -2724,10 +2724,13 @@ CK_RV SoftHSM::C_Encrypt(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pData, CK_ULONG
 	if (session->getSymmetricCryptoOp() != NULL) {
 		auto ret =  SymEncrypt(session, pData, ulDataLen,
 				  pEncryptedData, pulEncryptedDataLen);
-		ByteString data(pData, ulDataLen);
-		ByteString encryptedData(pEncryptedData, *pulEncryptedDataLen);
-		
-		logMessage(fmt::format("pData: {} | ulDataLen: {} | pEncryptedData: {} | pulEncryptedDataLen: {}"), data.hex_str(), data.size(), encryptedData.hex_str(), encryptedData.size());
+
+		if(pEncryptedData != NULL) {
+			ByteString data(pData, ulDataLen);
+			ByteString encryptedData(pEncryptedData, *pulEncryptedDataLen);
+			
+			logMessage(fmt::format("pData: {} | ulDataLen: {} | pEncryptedData: {} | pulEncryptedDataLen: {}"), data.hex_str(), data.size(), encryptedData.hex_str(), encryptedData.size());
+		}
 		return ret;
 	}
 	else
