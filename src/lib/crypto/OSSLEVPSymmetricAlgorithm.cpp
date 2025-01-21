@@ -476,7 +476,7 @@ bool OSSLEVPSymmetricAlgorithm::decryptFinal(ByteString& data)
 	size_t tagBytes = currentTagBytes;
 	ByteString aeadBuffer = currentAEADBuffer;
 
-	logMessage("OSSLEVPSymmetricAlgorithm::decryptFinal | mode: {}", static_cast<uint32_t>(currentCipherMode));
+	logMessage(fmt::format("OSSLEVPSymmetricAlgorithm::decryptFinal | mode: {}", static_cast<uint32_t>(currentCipherMode)));
 	if (!SymmetricAlgorithm::decryptFinal(data))
 	{
 		clean();
@@ -533,7 +533,7 @@ bool OSSLEVPSymmetricAlgorithm::decryptFinal(ByteString& data)
 
 	// Resize the output block
 	data.resize(initialSize + outLen);
-	logMessage("data: {}", data.hex_str());
+	logMessage(fmt::format("data: {}", data.hex_str()));
 
 	clean();
 
