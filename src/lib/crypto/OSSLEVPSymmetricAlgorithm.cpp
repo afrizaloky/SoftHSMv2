@@ -35,6 +35,7 @@
 #include "config.h"
 #include "OSSLEVPSymmetricAlgorithm.h"
 #include "OSSLUtil.h"
+#include "log.h"
 #include "salloc.h"
 #include <openssl/err.h>
 
@@ -109,6 +110,9 @@ void OSSLEVPSymmetricAlgorithm::clean()
 // Encryption functions
 bool OSSLEVPSymmetricAlgorithm::encryptInit(const SymmetricKey* key, const SymMode::Type mode /* = SymMode::CBC */, const ByteString& IV /* = ByteString()*/, bool padding /* = true */, size_t counterBits /* = 0 */, const ByteString& aad /* = ByteString() */, size_t tagBytes /* = 0 */)
 {
+	logMessage("OSSLEVPSymmetricAlgorithm::encryptInit");
+	std::string str = fmt::format("key: {} | keysize: {} | mode: {} | iv: {} | padding: {}, aad: {} | tagBytes: {}", key->getKeyBits().hex_str(), key->getKeyBits().size(), static_cast<uint32_t>(mode), IV.hex_str(), padding, aad.hex_str(), tagBytes);
+	logMessage(str);
 	// Call the superclass initialiser
 	if (!SymmetricAlgorithm::encryptInit(key, mode, IV, padding, counterBits, aad, tagBytes))
 	{
@@ -216,6 +220,8 @@ bool OSSLEVPSymmetricAlgorithm::encryptInit(const SymmetricKey* key, const SymMo
 
 bool OSSLEVPSymmetricAlgorithm::encryptUpdate(const ByteString& data, ByteString& encryptedData)
 {
+	logMessage("OSSLEVPSymmetricAlgorithm::encryptUpdate");
+	logMessage(fmt::format("data: {}", data.hex_str()));
 	if (!SymmetricAlgorithm::encryptUpdate(data, encryptedData))
 	{
 		clean();
@@ -409,6 +415,9 @@ bool OSSLEVPSymmetricAlgorithm::decryptInit(const SymmetricKey* key, const SymMo
 
 bool OSSLEVPSymmetricAlgorithm::decryptUpdate(const ByteString& encryptedData, ByteString& data)
 {
+	logMessage("OSSLEVPSymmetricAlgorithm::decryptUpdate");
+	logMessage(fmt::format("encryptedData: {}", encryptedData.hex_str()));
+
 	if (!SymmetricAlgorithm::decryptUpdate(encryptedData, data))
 	{
 		clean();
@@ -458,12 +467,12 @@ bool OSSLEVPSymmetricAlgorithm::decryptUpdate(const ByteString& encryptedData, B
 
 bool OSSLEVPSymmetricAlgorithm::decryptFinal(ByteString& data)
 {
-	logMessage("OSSLEVPSymmetricAlgorithm::decryptFinal");
 
 	SymMode::Type mode = currentCipherMode;
 	size_t tagBytes = currentTagBytes;
 	ByteString aeadBuffer = currentAEADBuffer;
 
+	logMessage("OSSLEVPSymmetricAlgorithm::decryptFinal | mode: {}", currentCipherMode);
 	if (!SymmetricAlgorithm::decryptFinal(data))
 	{
 		clean();
