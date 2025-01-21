@@ -35,6 +35,7 @@
 #include "config.h"
 #include "BotanSymmetricAlgorithm.h"
 #include "BotanUtil.h"
+#include "log.h"
 #include "salloc.h"
 #include <iostream>
 
@@ -78,6 +79,7 @@ std::vector<std::string> split_on_delim(const std::string& str, char delim)
 // Constructor
 BotanSymmetricAlgorithm::BotanSymmetricAlgorithm()
 {
+	logMessage("BotanSymmetricAlgorithm::BotanSymmetricAlgorithm()");
 	cryption = NULL;
 	maximumBytes = Botan::BigInt(1);
 	maximumBytes.flip_sign();
@@ -87,6 +89,7 @@ BotanSymmetricAlgorithm::BotanSymmetricAlgorithm()
 // Destructor
 BotanSymmetricAlgorithm::~BotanSymmetricAlgorithm()
 {
+	logMessage("BotanSymmetricAlgorithm::~BotanSymmetricAlgorithm()");
 	delete cryption;
 	cryption = NULL;
 }
@@ -94,6 +97,8 @@ BotanSymmetricAlgorithm::~BotanSymmetricAlgorithm()
 // Encryption functions
 bool BotanSymmetricAlgorithm::encryptInit(const SymmetricKey* key, const SymMode::Type mode /* = SymMode:CBC */, const ByteString& IV /* = ByteString()*/, bool padding /* = true */, size_t counterBits /* = 0 */, const ByteString& aad /* = ByteString() */, size_t tagBytes /* = 0 */)
 {
+	logMessage("BotanSymmetricAlgorithm::encryptInit");
+
 	// Call the superclass initialiser
 	if (!SymmetricAlgorithm::encryptInit(key, mode, IV, padding, counterBits, aad, tagBytes))
 	{
@@ -224,6 +229,8 @@ bool BotanSymmetricAlgorithm::encryptInit(const SymmetricKey* key, const SymMode
 
 bool BotanSymmetricAlgorithm::encryptUpdate(const ByteString& data, ByteString& encryptedData)
 {
+	logMessage("BotanSymmetricAlgorithm::encryptUpdate");
+
 	if (!SymmetricAlgorithm::encryptUpdate(data, encryptedData))
 	{
 		delete cryption;
@@ -288,6 +295,8 @@ bool BotanSymmetricAlgorithm::encryptUpdate(const ByteString& data, ByteString& 
 
 bool BotanSymmetricAlgorithm::encryptFinal(ByteString& encryptedData)
 {
+	logMessage("BotanSymmetricAlgorithm::encryptFinal");
+
 	if (!SymmetricAlgorithm::encryptFinal(encryptedData))
 	{
 		delete cryption;
@@ -329,6 +338,8 @@ bool BotanSymmetricAlgorithm::encryptFinal(ByteString& encryptedData)
 // Decryption functions
 bool BotanSymmetricAlgorithm::decryptInit(const SymmetricKey* key, const SymMode::Type mode /* = SymMode::CBC */, const ByteString& IV /* = ByteString() */, bool padding /* = true */, size_t counterBits /* = 0 */, const ByteString& aad /* = ByteString() */, size_t tagBytes /* = 0 */)
 {
+	logMessage("BotanSymmetricAlgorithm::decryptInit");
+
 	// Call the superclass initialiser
 	if (!SymmetricAlgorithm::decryptInit(key, mode, IV, padding, counterBits, aad, tagBytes))
 	{
@@ -459,6 +470,8 @@ bool BotanSymmetricAlgorithm::decryptInit(const SymmetricKey* key, const SymMode
 
 bool BotanSymmetricAlgorithm::decryptUpdate(const ByteString& encryptedData, ByteString& data)
 {
+	logMessage("BotanSymmetricAlgorithm::decryptUpdate");
+	logMessage(fmt::format("encryptedData: {}", encryptedData.hex_str()));
 	if (!SymmetricAlgorithm::decryptUpdate(encryptedData, data))
 	{
 		delete cryption;
@@ -587,6 +600,7 @@ bool BotanSymmetricAlgorithm::decryptFinal(ByteString& data)
 
 	// Resize the output block
 	data.resize(bytesRead);
+	logMessage("data: {}", data.hex_str());
 
 	return true;
 }
