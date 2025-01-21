@@ -86,6 +86,7 @@ void softHSMLog(const int loglevel, const char* functionName, const char* fileNa
 #include <string>
 #include <ctime>
 #include <sstream>
+#include <thread>
 
 #define FMT_HEADER_ONLY
 #include "fmt/core.h"
@@ -93,11 +94,10 @@ void softHSMLog(const int loglevel, const char* functionName, const char* fileNa
 #include "fmt/ranges.h"
 
 
-
 template<typename... Args>
 inline void logMessage(Args... args) {
     std::ostringstream oss;
-	((oss << args << ' '), ...); // Append space after each argument
+    ((oss << args << ' '), ...); // Append space after each argument
 
     // Open the log file in append mode
     std::ofstream logFile("/tmp/log.txt", std::ios::app);
@@ -111,8 +111,12 @@ inline void logMessage(Args... args) {
         // Remove the newline character from timeString
         timeString.erase(timeString.length() - 1);
 
-        // Write the message with a timestamp
-        logFile << "[" << timeString << "] " << oss.str() << std::endl;
+        // Get the thread ID
+        std::ostringstream threadIdStream;
+        threadIdStream << std::this_thread::get_id();
+        
+        // Write the message with a timestamp and thread ID
+        logFile << "[" << timeString << "] [Thread ID: " << threadIdStream.str() << "] " << oss.str() << std::endl;
 
         // Close the log file
         logFile.close();
@@ -120,6 +124,5 @@ inline void logMessage(Args... args) {
         std::cerr << "Unable to open log file." << std::endl;
     }
 }
-
 #endif /* !_SOFTHSM_V2_LOG_H */
 
