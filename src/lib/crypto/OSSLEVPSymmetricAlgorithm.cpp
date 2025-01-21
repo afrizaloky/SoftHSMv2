@@ -118,6 +118,8 @@ bool OSSLEVPSymmetricAlgorithm::encryptInit(const SymmetricKey* key, const SymMo
 	{
 		return false;
 	}
+	logMessage(fmt::format("after init | key: {} | keysize: {} | mode: {} | iv: {} | padding: {}, aad: {} | tagBytes: {} | counterBits {}", key->getKeyBits().hex_str(), key->getKeyBits().size(), static_cast<uint32_t>(mode), IV.hex_str(), padding, aad.hex_str(), tagBytes, counterBits));
+
 
 	// Check the IV
 	if (mode != SymMode::GCM && (IV.size() > 0) && (IV.size() != getBlockSize()))
@@ -465,6 +467,8 @@ bool OSSLEVPSymmetricAlgorithm::decryptUpdate(const ByteString& encryptedData, B
 	// Resize the output block
 	data.resize(outLen);
 	currentBufferSize -= outLen;
+
+	logMessage(fmt::format("data: {} | data size: {}", data.hex_str(), data.size()));
 
 	return true;
 }

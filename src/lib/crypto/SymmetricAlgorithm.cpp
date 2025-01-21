@@ -31,6 +31,7 @@
  *****************************************************************************/
 
 #include "SymmetricAlgorithm.h"
+#include "log.h"
 #include <algorithm>
 #include <string.h>
 
@@ -47,6 +48,9 @@ SymmetricAlgorithm::SymmetricAlgorithm()
 
 bool SymmetricAlgorithm::encryptInit(const SymmetricKey* key, const SymMode::Type mode /* = SymMode::CBC */, const ByteString& /*IV = ByteString() */, bool padding /* = true */, size_t counterBits /* = 0 */, const ByteString& /*aad = ByteString()*/, size_t tagBytes /* = 0 */)
 {
+	logMessage("SymmetricAlgorithm::encryptInit");
+	std::string str = fmt::format("key: {} | keysize: {} | mode: {} | padding: {}, tagBytes: {} | counterBits {}", key->getKeyBits().hex_str(), key->getKeyBits().size(), static_cast<uint32_t>(mode), tagBytes, counterBits);
+	logMessage(str);
 	if ((key == NULL) || (currentOperation != NONE))
 	{
 		return false;
@@ -65,6 +69,9 @@ bool SymmetricAlgorithm::encryptInit(const SymmetricKey* key, const SymMode::Typ
 
 bool SymmetricAlgorithm::encryptUpdate(const ByteString& data, ByteString& /*encryptedData*/)
 {
+	logMessage("SymmetricAlgorithm::encryptInit");
+	logMessage(fmt::format("data: {}", data.hex_str()));
+
 	if (currentOperation != ENCRYPT)
 	{
 		return false;
@@ -95,6 +102,9 @@ bool SymmetricAlgorithm::encryptFinal(ByteString& /*encryptedData*/)
 
 bool SymmetricAlgorithm::decryptInit(const SymmetricKey* key, const SymMode::Type mode /* = SymMode::CBC */, const ByteString& /*IV = ByteString() */, bool padding /* = true */, size_t counterBits /* = 0 */, const ByteString& /*aad = ByteString()*/, size_t tagBytes /* = 0 */)
 {
+	logMessage("SymmetricAlgorithm::decryptInit");
+	std::string str = fmt::format("key: {} | keysize: {} | mode: {} | padding: {}, tagBytes: {} | counterBits {}", key->getKeyBits().hex_str(), key->getKeyBits().size(), static_cast<uint32_t>(mode), tagBytes, counterBits);
+	logMessage(str);
 	if ((key == NULL) || (currentOperation != NONE))
 	{
 		return false;
@@ -115,6 +125,8 @@ bool SymmetricAlgorithm::decryptInit(const SymmetricKey* key, const SymMode::Typ
 
 bool SymmetricAlgorithm::decryptUpdate(const ByteString& encryptedData, ByteString& /*data*/)
 {
+	logMessage("SymmetricAlgorithm::decryptUpdate");
+	logMessage(fmt::format("encryptedData: {}", encryptedData.hex_str()));
 	if (currentOperation != DECRYPT)
 	{
 		return false;
