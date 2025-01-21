@@ -2633,7 +2633,7 @@ static CK_RV SymEncrypt(Session* session, CK_BYTE_PTR pData, CK_ULONG ulDataLen,
 	memcpy(pEncryptedData, encryptedData.byte_str(), encryptedData.size());
 	*pulEncryptedDataLen = encryptedData.size();
 
-	logMessage(fmt::format("encrypted data: {}, encrypted data size: {}", encryptedData.hex_str(),encryptedData.size()));
+	logMessage(fmt::format("encrypted data: {}, encrypted data size: {}", encryptedData.hex_str(), encryptedData.size()));
 
 	session->resetOp();
 	return CKR_OK;
@@ -2727,7 +2727,7 @@ CK_RV SoftHSM::C_Encrypt(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pData, CK_ULONG
 		ByteString data(pData, ulDataLen);
 		ByteString encryptedData(pEncryptedData, *pulEncryptedDataLen);
 		
-		logMessage(fmt::format("pData: {} | ulDataLen | pEncryptedData | pulEncryptedDataLen"), data.hex_str(), data.size(), encryptedData.hex_str(), encryptedData.size());
+		logMessage(fmt::format("pData: {} | ulDataLen: {} | pEncryptedData: {} | pulEncryptedDataLen: {}"), data.hex_str(), data.size(), encryptedData.hex_str(), encryptedData.size());
 		return ret;
 	}
 	else
