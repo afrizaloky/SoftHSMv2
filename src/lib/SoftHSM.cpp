@@ -2725,7 +2725,7 @@ CK_RV SoftHSM::C_Encrypt(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pData, CK_ULONG
 		auto ret =  SymEncrypt(session, pData, ulDataLen,
 				  pEncryptedData, pulEncryptedDataLen);
 
-		if(pEncryptedData != NULL) {
+		if(pEncryptedData != NULL and pulEncryptedDataLen != NULL) {
 			ByteString data(pData, ulDataLen);
 			ByteString encryptedData(pEncryptedData, *pulEncryptedDataLen);
 			
