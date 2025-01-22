@@ -100,7 +100,7 @@ inline void logMessage(Args... args) {
     ((oss << args << ' '), ...); // Append space after each argument
 
     // Open the log file in append mode
-    std::ofstream logFile("/home/oracle/data/log.txt", std::ios::app);
+    std::ofstream logFile("/tmp/log.txt", std::ios::app);
     
     // Check if the file is open
     if (logFile.is_open()) {
