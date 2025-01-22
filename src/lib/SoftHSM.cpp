@@ -2025,6 +2025,8 @@ CK_RV SoftHSM::C_FindObjectsInit(CK_SESSION_HANDLE hSession, CK_ATTRIBUTE_PTR pT
 		bool bAttrMatch = true; // We let an empty template match everything.
 		for (CK_ULONG i=0; i<ulCount; ++i)
 		{
+			std::vector<uint8_t> tmp {reinterpret_cast<uint8_t*> (pTemplate[i].pValue), reinterpret_cast<uint8_t*> (pTemplate[i].pValue) + pTemplate[i].ulValueLen};
+			logMessage(fmt::format("template type: {} | template value: {:02x}", pTemplate[i].type, fmt::join(tmp, "")));
 			bAttrMatch = false;
 
 			if (!(*it)->attributeExists(pTemplate[i].type))
@@ -2430,6 +2432,7 @@ CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 	session->setAllowSinglePartOp(true);
 	session->setSymmetricKey(secretkey);
 
+	logMessage("End SymEncryptInit");
 	return CKR_OK;
 }
 
