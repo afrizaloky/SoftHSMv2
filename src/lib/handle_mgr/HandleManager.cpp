@@ -72,6 +72,7 @@ CK_SESSION_HANDLE HandleManager::addSession(CK_SLOT_ID slotID, CK_VOID_PTR sessi
 
 CK_VOID_PTR HandleManager::getSession(const CK_SESSION_HANDLE hSession)
 {
+	logMessage("getSession");
 	MutexLocker lock(handlesMutex);
 
 	std::map< CK_ULONG, Handle>::iterator it = handles.find(hSession);

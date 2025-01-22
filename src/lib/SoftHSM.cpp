@@ -12648,6 +12648,7 @@ CK_RV SoftHSM::getSymmetricKey(SymmetricKey* skey, Token* token, OSObject* key)
 		keybits = key->getByteStringValue(CKA_VALUE);
 	}
 
+	logMessage("setKeyBits");
 	skey->setKeyBits(keybits);
 
 	return CKR_OK;
