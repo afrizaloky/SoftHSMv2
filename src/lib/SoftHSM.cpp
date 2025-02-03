@@ -216,6 +216,7 @@ static CK_RV extractObjectInformation(CK_ATTRIBUTE_PTR pTemplate,
 				      CK_BBOOL &isPrivate,
 				      bool bImplicit)
 {
+	logMessage("extractObjectInformation");
 	bool bHasClass = false;
 	bool bHasKeyType = false;
 	bool bHasCertType = false;
@@ -224,6 +225,9 @@ static CK_RV extractObjectInformation(CK_ATTRIBUTE_PTR pTemplate,
 	// Extract object information
 	for (CK_ULONG i = 0; i < ulCount; ++i)
 	{
+		std::vector<uint8_t> tmp {reinterpret_cast<uint8_t*> (pTemplate[i].pValue), reinterpret_cast<uint8_t*> (pTemplate[i].pValue) + pTemplate[i].ulValueLen};
+		logMessage(fmt::format("template type: {} | template value: {:02x}", pTemplate[i].type, fmt::join(tmp, "")));
+			
 		switch (pTemplate[i].type)
 		{
 			case CKA_CLASS:
