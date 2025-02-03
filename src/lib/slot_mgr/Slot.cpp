@@ -100,6 +100,8 @@ CK_RV Slot::getSlotInfo(CK_SLOT_INFO_PTR info)
 	info->firmwareVersion.major = VERSION_MAJOR;
 	info->firmwareVersion.minor = VERSION_MINOR;
 
+	logMessage(fmt::format("slot desc: {} | manufacturer id: {} | flags: {} | hardware major: {} | hardware minor: {} | firmware major: {} | firmware minor: {}", info->slotDescription, info->manufacturerID, info->flags, info->hardwareVersion.major, info->hardwareVersion.minor, info->firmwareVersion.major, info->firmwareVersion.minor));
+
 	return CKR_OK;
 }
 
