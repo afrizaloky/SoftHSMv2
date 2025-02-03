@@ -105,6 +105,7 @@ CK_RV SlotManager::getSlotList(ObjectStore* objectStore, CK_BBOOL tokenPresent, 
 	bool uninitialized = false;
 	for (SlotMap::iterator i = slots.begin(); i != slots.end(); i++)
 	{
+		logMessage(fmt::format("slotId: {}" ,i->second->getSlotID()));
 		if ((tokenPresent == CK_FALSE) || i->second->isTokenPresent())
 		{
 			size++;
