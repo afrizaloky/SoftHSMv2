@@ -2099,9 +2099,15 @@ CK_RV SoftHSM::C_FindObjectsInit(CK_SESSION_HANDLE hSession, CK_ATTRIBUTE_PTR pT
 			// Create an object handle for every returned object.
 			CK_OBJECT_HANDLE hObject;
 			if (isOnToken)
+			{
 				hObject = handleManager->addTokenObject(slotID,isPrivate,*it);
+				logMessage(fmt::format("bAttrMatch | attribute: {}", (*it)->getByteStringValue(CKA_LABEL).hex_str()));
+			}
 			else
+			{
 				hObject = handleManager->addSessionObject(slotID,hSession,isPrivate,*it);
+
+			}
 			if (hObject == CK_INVALID_HANDLE)
 			{
 				delete findOp;
