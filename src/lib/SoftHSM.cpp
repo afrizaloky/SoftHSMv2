@@ -2209,6 +2209,7 @@ CK_RV SoftHSM::SymEncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMech
 
 	// Check the key handle.
 	OSObject *key = (OSObject *)handleManager->getObject(hKey);
+	logMessage(fmt::format("SoftHSM::SymEncryptInit | attribute: {}", key->getAttribute(CKA_ID).getByteStringValue().hex_str()));
 	if (key == NULL_PTR || !key->isValid()) return CKR_OBJECT_HANDLE_INVALID;
 
 	CK_BBOOL isOnToken = key->getBooleanValue(CKA_TOKEN, false);
