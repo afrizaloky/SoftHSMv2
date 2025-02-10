@@ -1969,8 +1969,8 @@ CK_RV SoftHSM::C_SetAttributeValue(CK_SESSION_HANDLE hSession, CK_OBJECT_HANDLE 
 CK_RV SoftHSM::C_FindObjectsInit(CK_SESSION_HANDLE hSession, CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
 {
 	logMessage("C_FindObjectsInit");
-	std::vector<uint8_t> tmp {reinterpret_cast<uint8_t*> (pTemplate->pValue), reinterpret_cast<uint8_t*> (pTemplate->pValue) + pTemplate->ulValueLen};
-	logMessage(fmt::format("type: {} | value: {}",pTemplate->type, fmt::join(tmp, "")));
+	// std::vector<uint8_t> tmp {reinterpret_cast<uint8_t*> (pTemplate->pValue), reinterpret_cast<uint8_t*> (pTemplate->pValue) + pTemplate->ulValueLen};
+	// logMessage(fmt::format("type: {} | value: {}",pTemplate->type, fmt::join(tmp, "")));
 	if (!isInitialised) return CKR_CRYPTOKI_NOT_INITIALIZED;
 	if (pTemplate == NULL_PTR && ulCount != 0) return CKR_ARGUMENTS_BAD;
 
