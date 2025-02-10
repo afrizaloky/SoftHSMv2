@@ -5988,6 +5988,7 @@ CK_RV SoftHSM::C_DecryptVerifyUpdate(CK_SESSION_HANDLE hSession, CK_BYTE_PTR /*p
 // Generate a secret key or a domain parameter set using the specified mechanism
 CK_RV SoftHSM::C_GenerateKey(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount, CK_OBJECT_HANDLE_PTR phKey)
 {
+	logMessage("C_GenerateKey");
 	if (!isInitialised) return CKR_CRYPTOKI_NOT_INITIALIZED;
 
 	if (pMechanism == NULL_PTR) return CKR_ARGUMENTS_BAD;
