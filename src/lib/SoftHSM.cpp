@@ -2120,6 +2120,7 @@ CK_RV SoftHSM::C_FindObjectsInit(CK_SESSION_HANDLE hSession, CK_ATTRIBUTE_PTR pT
 	// Storing the object handles for the find will protect the library
 	// whenever a stale object handle is used to access the library.
 	findOp->setHandles(handles);
+	logMessage(fmt::format("handles size: {}", handles.size()));
 
 	session->setFindOp(findOp);
 
@@ -6141,6 +6142,7 @@ CK_RV SoftHSM::C_GenerateKeyPair
 	CK_OBJECT_HANDLE_PTR phPrivateKey
 )
 {
+	logMessage("C_GenerateKeyPair");
 	if (!isInitialised) return CKR_CRYPTOKI_NOT_INITIALIZED;
 
 	if (pMechanism == NULL_PTR) return CKR_ARGUMENTS_BAD;
@@ -12673,7 +12675,7 @@ CK_RV SoftHSM::getSymmetricKey(SymmetricKey* skey, Token* token, OSObject* key)
 }
 
 bool SoftHSM::setRSAPrivateKey(OSObject* key, const ByteString &ber, Token* token, bool isPrivate) const
-{
+{ 
 	AsymmetricAlgorithm* rsa = CryptoFactory::i()->getAsymmetricAlgorithm(AsymAlgo::RSA);
 	if (rsa == NULL)
 		return false;
